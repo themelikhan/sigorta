@@ -1,0 +1,103 @@
+{% include 'header.html' %}
+
+<body>
+
+    <nav class="navbar navbar-dark navbar-theme-primary px-4 col-12 d-md-none">
+        <a class="navbar-brand mr-lg-5" href="../index.html">
+            <img class="navbar-brand-dark" src="{{ url_for('static' , filename='assets/img/brand/light.svg')}}"
+                alt="Volt logo" /> <img class="navbar-brand-light"
+                src="{{ url_for('static' , filename='assets/img/brand/dark.svg')}}" alt="Volt logo" />
+        </a>
+        <div class="d-flex align-items-center">
+            <button class="navbar-toggler d-md-none collapsed" type="button" data-toggle="collapse"
+                data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+
+
+        {% include 'navbar.html' %}
+
+
+
+
+
+        <div class="card card-body border-light shadow-sm table-wrapper table-responsive pt-0">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Poliçe Numarası</th>
+                        <th>İsim Soyisim</th>
+                        <th>Poliçe Onay Tarihi</th>
+                        <th>Güncelleme Tarihi</th>
+                        <th>P. Net Prim</th>
+                        <th>Durum</th>
+                    </tr>
+                </thead>
+
+                <!-- İÇERİK BAŞLANGICI -->
+                {% for veri in veriler %}
+                <tbody>
+                    <!-- Item -->
+                    <tr>
+                        <td>
+                            <a href="{{ url_for('police' , url=veri['police_numara'])}}" class="font-weight-bold">
+                                {{ veri['police_numara']}}
+                            </a>
+                        </td>
+                        <td>
+                            <span class="font-weight-normal">{{veri['police_isim']}}</span>
+                        </td>
+                        <td><span class="font-weight-normal">{{veri['police_tarih']}}</span></td>
+                        <td><span class="font-weight-normal">{{veri['police_tarih']}}</span></td>
+                        <td><span class="font-weight-bold">{{veri['police_tutar']}}</span></td>
+                        <td><span class="font-weight-bold 
+                                {% if '0' in veri['police_onay'] %}
+                                text-success
+                                {% else %}
+                                text-warning
+                                {% endif %}
+
+                                
+                                ">
+
+                                {% if '0' in veri['police_onay'] %}
+                                Doğru
+                                {% else %}
+                                İptal
+                                {% endif %}
+
+                            </span></td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="icon icon-sm">
+                                        <span class="fas fa-ellipsis-h icon-dark"></span>
+                                    </span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item"
+                                        href="{{ url_for('police' , url=veri['police_numara'])}}"><span
+                                            class="fas fa-eye mr-2"></span>İncele</a>
+                                    <a class="dropdown-item text-danger" href="#"><span
+                                            class="fas fa-trash-alt mr-2"></span>Sil</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+                <!-- İÇERİK SONU -->
+            </table>
+            <div class="card-footer px-3 border-0 d-flex align-items-center justify-content-between">
+            </div>
+        </div>
+        </main>
+        </div>
+        </div>
+        </div>
+
+        {% include 'footer.html' %}

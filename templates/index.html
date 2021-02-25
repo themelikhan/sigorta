@@ -1,0 +1,193 @@
+{% include 'header.html' %}
+
+<body>
+
+    <nav class="navbar navbar-dark navbar-theme-primary px-4 col-12 d-md-none">
+        <a class="navbar-brand mr-lg-5" href="../index.html">
+            <img class="navbar-brand-dark" src="{{ url_for('static' , filename='assets/img/brand/light.svg')}}"
+                alt="Volt logo" /> <img class="navbar-brand-light"
+                src="{{ url_for('static' , filename='assets/img/brand/dark.svg')}}" alt="Volt logo" />
+        </a>
+        <div class="d-flex align-items-center">
+            <button class="navbar-toggler d-md-none collapsed" type="button" data-toggle="collapse"
+                data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+
+
+        {% include 'navbar.html' %}
+
+
+
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+            <div class="d-block mb-4 mb-md-0">
+                <!-- <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+                        <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                            <li class="breadcrumb-item"><a href="#"><span class="fas fa-home"></span></a></li>
+                            <li class="breadcrumb-item"><a href="#">Volt</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Transactions</li>
+                        </ol>
+                    </nav> -->
+                <h2 class="h4">All Orders</h2>
+                <p class="mb-0">Your web analytics dashboard template.</p>
+            </div>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-outline-primary">
+                        <a href="#">Aktar</a>
+                    </button>
+                    <button type="button" href="#" class="btn btn-sm btn-outline-primary">
+                        <a href="{{url_for('upload')}}">Dosya Yükle</a> </button>
+                </div>
+            </div>
+        </div>
+        <div class="table-settings mb-4">
+            <div class="row align-items-center justify-content-between">
+                <div class="col col-md-6 col-lg-3 col-xl-4">
+                    <div class="mb-4">
+                        <form method="POST">
+                            <!-- <label class="my-1 mr-2" for="asd">Ay Seçimi</label> -->
+                            <select class="form-select" name='data' aria-label="Default select example">
+                                {% for databasename in databasenames %}
+                                <option value="{{ databasename['Tables_in_sigorta'] }}">{{ databasename['Tables_in_sigorta'] }}</option>
+                                {% endfor %}
+                            </select>
+                            <input class="btn btn-primary" type="submit" name='seç' value="SEÇ">
+                        </form>
+                    </div>
+                </div>
+                <div class="col-4 col-md-2 col-xl-1 pl-md-0 text-right">
+                    <div class="btn-group">
+                        <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="icon icon-sm icon-gray">
+                                <span class="fas fa-cog"></span>
+                            </span>
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-xs dropdown-menu-right">
+                            <span class="dropdown-item font-weight-bold text-dark">Show</span>
+                            <a class="dropdown-item d-flex font-weight-bold" href="#">10 <span
+                                    class="icon icon-small ml-auto"><span class="fas fa-check"></span></span></a>
+                            <a class="dropdown-item font-weight-bold" href="#">20</a>
+                            <a class="dropdown-item font-weight-bold" href="#">30</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-body border-light shadow-sm table-wrapper table-responsive pt-0">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Poliçe Numarası</th>
+                        <th>İsim Soyisim</th>
+                        <th>Poliçe Onay Tarihi</th>
+                        <th>Güncelleme Tarihi</th>
+                        <th>P. Net Prim</th>
+                        <th>Durum</th>
+                        <th>Ayar</th>
+                    </tr>
+                </thead>
+
+                <!-- İÇERİK BAŞLANGICI -->
+                {% for veri in veriler %}
+                <tbody>
+                    <!-- Item -->
+                    <tr>
+                        <td>
+                            <a href="{{ url_for('police' , url=veri['police_numara'])}}" class="font-weight-bold">
+                                {{ veri['police_numara']}}
+                            </a>
+                        </td>
+                        <td>
+                            <span class="font-weight-normal">{{veri['police_isim']}}</span>
+                        </td>
+                        <td><span class="font-weight-normal">{{veri['police_tarih']}}</span></td>
+                        <td><span class="font-weight-normal">{{veri['police_tarih']}}</span></td>
+                        <td><span class="font-weight-bold">{{veri['police_tutar']}}</span></td>
+                        <td><span class="font-weight-bold 
+                                {% if '0' in veri['police_onay'] %}
+                                text-success
+                                {% else %}
+                                text-warning
+                                {% endif %}
+
+                                
+                                ">
+                            
+                                {% if '0' in veri['police_onay'] %}
+                                Doğru
+                                {% else %}
+                                İptal
+                                {% endif %}
+
+                            </span></td>
+                        <td>
+                            <div class="btn-group">
+                                <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="icon icon-sm">
+                                        <span class="fas fa-ellipsis-h icon-dark"></span>
+                                    </span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item"
+                                        href="{{ url_for('police' , url=veri['police_numara'])}}"><span
+                                            class="fas fa-eye mr-2"></span>İncele</a>
+                                    <a class="dropdown-item text-danger" href="#"><span
+                                            class="fas fa-trash-alt mr-2"></span>Sil</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+                <!-- İÇERİK SONU -->
+            </table>
+            <div class="card-footer px-3 border-0 d-flex align-items-center justify-content-between">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination mb-0">
+                        <li class="page-item">
+                            <a class="page-link" href="#">Önceki</a>
+                        </li>
+                        <li class="page-item active">
+                            <a class="page-link " href="#">1</a>
+                        </li>
+                        <li class="page-item ">
+                            <a class="page-link" href="#">2</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">3</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">4</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">5</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Sonraki</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="font-weight-bold small">Showing <b>5</b> out of <b>25</b> entries</div>
+            </div>
+        </div>
+        <footer class="footer section py-5">
+            <div class="row">
+                <div class="col-12 col-lg-6 mb-4 mb-lg-0">
+                    <p class="mb-0 text-center text-xl-left">Copyright © 2021-<span class="current-year"></span> <a
+                            class="text-primary font-weight-normal" href="#" target="_blank">Melikhan</a></p>
+                </div>
+            </div>
+        </footer>
+        </main>
+        </div>
+        </div>
+        </div>
+
+        {% include 'footer.html' %}

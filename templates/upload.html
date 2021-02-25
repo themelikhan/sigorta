@@ -1,0 +1,28 @@
+{% include 'header.html' %}
+{% include 'navbar.html' %}
+
+
+<br><br><br><br>
+<body>
+    <hr>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="text" name='filename' placeholder="Dosya ismi">
+        <input type="file" name="file">
+        <input type="submit">
+    </form>
+    <br>
+    <p>
+
+        {% if message == 'Bu isim zaten kullanılıyor. Lütfen farklı bir isim deneyin!' %}
+        <h4 style="color: red;">{{ message }}</h2>
+
+        {% else %}
+        <h4 style="color: green;">{{ message }}</h2>
+        {% endif %}
+    </p>
+
+
+
+
+
+{% include 'footer.html' %}
